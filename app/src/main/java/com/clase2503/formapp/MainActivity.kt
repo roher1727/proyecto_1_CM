@@ -3,9 +3,10 @@ package com.clase2503.formapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.*
+import android.view.View import android.widget.*
 import com.clase2503.formapp.databinding.ActivityMainBinding
+import java.lang.Math.sqrt
+import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,7 +50,6 @@ class MainActivity : AppCompatActivity() {
                     parent.context,
                     "Output...$item", Toast.LENGTH_LONG
                 ).show()
-                val resultado = 0;
                 val imageView = findViewById<ImageView>(R.id.imageView)
                 val etiqueta_1 = findViewById<TextView>(R.id.textView1)
                 val etiqueta_2 = findViewById<TextView>(R.id.textView2)
@@ -90,19 +90,63 @@ class MainActivity : AppCompatActivity() {
             val dato2 = binding.etOptionB.text.toString()
             val dato3 = binding.etOptionC.text.toString()
 
-            when (opcion){
-                0 -> {}
-                1 -> {}
-                2 -> {}
-            }
+            val parametro1 = dato1.toFloat()
+            val parametro2 = dato2.toFloat()
+            val parametro3 = dato3.toFloat()
+
+            var resultado = ""
+
 
             if (!dato1.isNullOrEmpty() && !dato2.isNullOrEmpty() && !dato3.isNullOrEmpty()){
-                val intent = Intent(this, MainActivity2::class.java).apply {
-                    putExtra("Dato1", dato1)
-                    putExtra("Dato2", dato2)
-                    putExtra("Dato3", dato3)
+
+                when (opcion){
+                    0 -> {
+                        if(parametro1*parametro1 < 4*parametro2*parametro3){
+                            Toast.makeText(
+                                this,
+                                "El discriminante debe ser positivo", Toast.LENGTH_LONG
+                            ).show()
+                        }else {
+
+                            val intent = Intent(this, MainActivity2::class.java).apply {
+                                putExtra("Resultado", ((-parametro1+sqrt(parametro1*parametro1 - 4*parametro2*parametro3))/2*parametro2).toString())
+                            }
+                            startActivity(intent)
+                        }
+                    }
+                    1 -> {
+                        if (parametro1 < 0  || parametro2 < 0 || parametro2 < 0){
+                            Toast.makeText(
+                                this,
+                                "Las longitudes deben ser positivas", Toast.LENGTH_LONG
+                            ).show()
+                        }else{
+                            val intent = Intent(this, MainActivity2::class.java).apply {
+                                putExtra("Resultado", (parametro1*parametro2*parametro3).toString())
+                            }
+                            startActivity(intent)
+                        }
+
+                    }
+                    2 -> {
+                        val parametro1 = dato1.toInt()
+                        val parametro2 = dato2.toInt()
+                        val parametro3 = dato3.toInt()
+                        if ((parametro1+parametro2-parametro3) != 2){
+                            Toast.makeText(
+                                this,
+                                "Ese no es un poliedro", Toast.LENGTH_LONG
+                            ).show()
+                        }else{
+                            val intent = Intent(this, MainActivity2::class.java).apply {
+                                putExtra("Resultado", (parametro1+parametro2-parametro3).toString())
+                            }
+                            startActivity(intent)
+
+                        }
+                    }
                 }
-                startActivity(intent)
+
             }else{
                 Toast.makeText(
                     this,
